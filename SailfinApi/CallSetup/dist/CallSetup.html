@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+  <title>SailFin Application Server Separate Bundle - Sample Applications</title>
+  <style type="text/css">
+  body,td,p,div,span,a,ul,ul li, ol, ol li, ol li b, dl,h1,h2,h3,h4,h5,h6,li {
+    font-family:geneva,helvetica,arial,"lucida sans",sans-serif;
+    font-size:10pt
+  }
+  h1 {font-size:18pt}
+  h2 {font-size:14pt}
+  h3 {font-size:12pt}
+  code,kbd,tt,pre {
+    font-family:monaco,courier,"courier new";
+    font-size:10pt;
+  }
+  li {padding-bottom: 8px}
+  p.copy, p.copy a {
+    font-family:geneva,helvetica,arial,"lucida sans",sans-serif;
+    font-size:8pt
+    }
+  p.copy {text-align: center}
+
+  table.grey1,tr.grey1,td.grey1{background:#f1f1f1}
+  th {
+    color:#ffffff;
+    font-family:geneva,helvetica,arial,"lucida sans",sans-serif;
+    font-size:12pt
+  }
+  td.insidehead {
+    font-weight:bold;
+    background:white;
+    text-align: left;
+  }
+  a{text-decoration:none}
+  a:visited{color:#96C}
+  a:hover {text-decoration:underline}
+  </style>
+</head>
+<body alink="#333366" bgcolor="#ffffff" link="#594fbf" marginwidth="10"
+ text="#000000" vlink="#1005fb">
+<table border="0" cellpadding="2" cellspacing="4" width="100%">
+  <tbody>
+    <tr>
+      <td align="right" bgcolor="#587993" valign="top"> <font
+ color="#ffffff" size="-1"><b>SailFin Application Server</b></font>&nbsp;
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p align=right><a href="../index.html">Click here to go back to SailFin Sample Home Page</a></p>
+<!---- Don't modify anything above this line, except for the title tag -------->
+<h1>SailFin Sample Applications - CallSetup</h1>
+<p>
+This demo ("CallSetup") combines a Java EE 5 Application with Sip Servlets. 
+Incoming SIP registrations are processed by a SipServlet that utilizes 
+Java EE 5 annotations and EJB 3.0 to store in to a database. The web interface 
+in the same application looks up a SipFactory and places calls, with the 
+help of B2B User Agent SipServlet. This application illustrates how to utilize 
+the powerful component model, IDEs, and Tools of Java EE 5 to write SIP 
+applications. It also shows how Java EE Web components can add communication 
+capabilities to existing web interfaces, with the help of SIP.
+</p>
+<hr noshade="noshade" size="1">
+<h2>Instructions to deploy the sample application CallSetup</h2>
+<p><B>Note: For executing SailFin samples, the user must have configured the SailFin server. Here 'INSTALL_HOME' is the sailfin installation directory.</b></p>
+<ol>
+  <li>% cd INSTALL_HOME/bin<br><br>
+  </li>
+  <li>% ./asadmin start-domain domain1<br>It would start the server.<br><br>
+  </li>
+  <li>% ./asadmin start-database<br>It would start the database.<br><br>
+  </li>
+  <li>% cd INSTALL_HOME/samples/sipservlet/CallSetup<br>It would point to the sailfin sample 'CallSetup' directory which contains an 'ant script' to build,deploy and undeploy 'CallSetup' sample.<br><br>This script contains individual targets for building and creating a sar file (INSTALL_HOME/lib/ant/bin/ant sar), deploy(INSTALL_HOME/lib/ant/bin/ant deploy) and undeploy(INSTALL_HOME/lib/ant/bin/ant undeploy).<br><br>
+  </li>
+  <li>% INSTALL_HOME/lib/ant/bin/ant clean build deploy<br>It would build all available java files and going to create a sar file (CallSetup.sar). It would deploy the sar file on SailFin server.<br><br>
+  </li>
+  <li>% INSTALL_HOME/lib/ant/bin/ant undeploy<br>It would undeploy sar file (CallSetup.sar).<br><br>
+  </li>
+</ol>
+<hr noshade="noshade" size="1">
+<h2>Instructions to execute the sample application CallSetup on <b><i>Linux</i></b></h2>
+<ol>
+   <li>To Download the SIP Softphone<br><br><b>a.</b> Visit the URL <a href="http://www.counterpath.com/x-lite.html" target="top">http://www.counterpath.com/x-lite.html</a><br><b>b.</b> Click on the "Download Now". <br><b>c.</b> To initiate your X-Lite download, please enter your name and email address. Click on the "Submit Information".<br><b>d.</b> Now you are ready to download softphone. Click on the "Download X-Lite 3.0 for Linux".<br><br>
+  </li>
+  <li>Once the softphone is installed and ready to use, you have to make following configuration to the softphone.<br><br><b>a.</b> Click on the button which is right side of the button showing 'CLEAR'. It opens new window showing 'Main Menu'.<br><b>b.</b> Click on the option showing "System Settings".<br><b>c.</b> Click on the option showing "SIP Proxy".<br><b>d.</b> Click on the option showing "[Default]".<br><b>e.</b> Enter "Display Name" as "Bob".<br><b>f.</b> Enter "User name" as "bob".<br><b>g.</b> Enter "Domain/Realm" as "test.com".<br><b>h.</b> Enter "SIP Proxy" as IP address of machine hosting the Telco AS, suffixed with the port 5060. i.e.  IP address of your machine hosting the Telco AS:5060<br><b>i.</b> Enter "Out Bound Proxy" as IP address of machine hosting the Telco AS, suffixed with the port 5060. i.e.  IP address of your machine hosting the Telco AS:5060<br><b>j.</b> Your changes have been saved. You can close this window now.<br><br>
+  </li>
+  <li>Your SIP phone should attempt to register with the application in the telco AS. For this demo, at least two clients must register with the SailFin Server<br><br><b>a.</b> Start another instance on the same system, one can launch X-Lite application from different terminal window.<br><b>b.</b> The second instance can also be run on another system.<br><br>
+  </li>
+  <li>In this second softphone instance, you need to make similar changes as mentioned in above Step 2. <b>Enter a different "Display Name" and "User name".</b> E.g. Alice<br><br>
+  </li>
+  <li>You can test that the registration is successful by pointing your browser to<br><br><B><a href="http://localhost:8080/CallSetup/RegistrationBrowserServlet" target="top">http://localhost:8080/CallSetup/RegistrationBrowserServlet</a></b><br>You should see a table with all registered clients. E.g. "Bob" and "Alice"<br><br>
+  </li>
+  <li>Click on the check box next to two registered users and click submit. The phone should ring sequentially at the two selected end points.<br><br>
+  </li>
+</ol>
+<hr noshade="noshade" size="1">
+<h2>Instructions to execute the sample application CallSetup on <b><i>Mac</i></b></h2>
+<ol>
+  <li>To Download the SIP Softphone<br><br><b>a.</b> Visit the URL <a href="http://www.counterpath.com/x-lite.html" target="top">http://www.counterpath.com/x-lite.html</a><br><b>b.</b> Click on the "Download Now". <br><b>c.</b> To initiate your X-Lite download, please enter your name and email address. Click on the "Submit Information".<br><b>d.</b> Now you are ready to download softphone. Click on the "Download X-Lite 3.0 for Mac".<br><br>
+  </li>
+   <li>Once the softphone is installed and ready to use, you have to make following configuration to the softphone.<br><br><b>a.</b> Click on the "X-lite" menu item on the top of the screen.<br><b>b.</b> Click on the option showing "SIP Account Settings". It opens a new dialog box titled "SIP Accounts".<br><b>c.</b> Click on 'Add' to create a new Account. It now opens a new dialog box titled "Properties of Account1". Please stay in the "Account" tab.<br><b>d.</b> Enter "Display Name" as "Bob".<br><b>e.</b> Enter "User name" as "bob".<br><b>f.</b> Enter "Domain" as "test.com".<br><b>g.</b> In the the "Domain Proxy setting" select the check box showing "Register with domain and receive incoming calls".<br><b>h.</b> Set the radio button option to "proxy".<br><b>i.</b> Enter "Address" as IP address of machine hosting the Telco AS, suffixed with the port 5060. i.e.  IP address of your machine hosting the Telco AS:5060<br><br>
+  </li>
+  <li>Your SIP phone should attempt to register with the application in the telco AS. For this demo, at least two clients must register with the SailFin Server.<br><br><b>a.</b> Start another instance on the same system, first create another user (say "newuser") with admin privileges. In a terminal window, type "su - "newuser" to that user. Now, type '/Applications/X-Lite.app/Contents/MacOS/eyeBeam' to start second instance of X-Lite.<br><b>b.</b> The second instance can also be run on another system.<br><br>
+  </li>
+  <li>In this second softphone instance, you need to make similar changes as mentioned in above Step 2. <b>Enter a different "Display Name" and "User name".</b> E.g. Alice<br><br>
+  </li>
+  <li>You can test that the registration is successful by pointing your browser to<br><br><B><a href="http://localhost:8080/CallSetup/RegistrationBrowserServlet" target="top">http://localhost:8080/CallSetup/RegistrationBrowserServlet</a></b><br>You should see a table with all registered clients. E.g. "Bob" and "Alice"<br><br>
+  </li>
+  <li>Click on the check box next to two registered users and click submit. The phone should ring sequentially at the two selected end points.<br><br>
+  </li>
+</ol>
+<hr noshade="noshade" size="1">
+<h2>Instructions to execute the sample application CallSetup on <b><i>Windows</i></b></h2>
+<ol>
+  <li>To Download the SIP Softphone<br><br><b>a.</b> Visit the URL <a href="http://www.counterpath.com/x-lite.html" target="top">http://www.counterpath.com/x-lite.html</a><br><b>b.</b> Click on the "Download Now". <br><b>c.</b> To initiate your X-Lite download, please enter your name and email address. Click on the "Submit Information".<br><b>d.</b> Now you are ready to download softphone. Click on the "Download X-Lite 3.0 for Windows".<br><br>
+  </li>
+   <li>Once the softphone is installed and ready to use, you have to make following configuration to the softphone.<br><br><b>a.</b> Click on the "X-lite" menu item on the top of the screen.<br><b>b.</b> Click on the option showing "SIP Account Settings". It opens a new dialog box titled "SIP Accounts".<br><b>c.</b> Click on 'Add' to create a new Account. It now opens a new dialog box titled "Properties of Account1". Please stay in the "Account" tab.<br><b>d.</b> Enter "Display Name" as "Bob".<br><b>e.</b> Enter "User name" as "bob".<br><b>f.</b> Enter "Domain" as "test.com".<br><b>g.</b> In the the "Domain Proxy setting" select the check box showing "Register with domain and receive incoming calls".<br><b>h.</b> Set the radio button option to "proxy".<br><b>i.</b> Enter "Address" as IP address of machine hosting the Telco AS, suffixed with the port 5060. i.e.  IP address of your machine hosting the Telco AS:5060<br><br>
+  </li>
+  <li>Your SIP phone should attempt to register with the application in the telco AS. For this demo, at least two clients must register with the SailFin Server.<br><br><b>a.</b> The second instance can also be run on another system.<br><br>
+  </li>
+  <li>In this second softphone instance, you need to make similar changes as mentioned in above Step 2. <b>Enter a different "Display Name" and "User name".</b> E.g. Alice<br><br>
+  </li>
+
+  <li>You can test that the registration is successful by pointing your browser to<br><br><B><a href="http://localhost:8080/CallSetup/RegistrationBrowserServlet" target="top">http://localhost:8080/CallSetup/RegistrationBrowserServlet</a></b><br>You should see a table with all registered clients. E.g. "Bob" and "Alice"<br><br>
+  </li>
+  <li>Click on the check box next to two registered users and click submit. The phone should ring sequentially at the two selected end points.<br><br>
+  </li>
+</ol>
+<p>Send any support requests or technical queries to <a href="mailto:dev@sailfin.dev.java.net">dev@sailfin.dev.java.net</a></p>
+<!--- Do not modify the rest of the document -->
+<hr noshade="noshade" size="1"><!-- start copyright -->
+<p class="copy"> Copyright &copy; 2007 <a href="http://sun.com">Sun
+Microsystems, Inc.</a>
+All rights reserved. </p>
+<!--  end copyright  -->
+</body>
+</html>
