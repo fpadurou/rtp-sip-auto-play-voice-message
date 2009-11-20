@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+ The contents of this file are subject to the terms 
+ of the Common Development and Distribution License 
+ (the License).  You may not use this file except in
+ compliance with the License.
+ 
+ You can obtain a copy of the license at 
+ https://glassfish.dev.java.net/public/CDDLv1.0.html or
+ glassfish/bootstrap/legal/CDDLv1.0.txt.
+ See the License for the specific language governing 
+ permissions and limitations under the License.
+ 
+ When distributing Covered Code, include this CDDL 
+ Header Notice in each file and include the License file 
+ at glassfish/bootstrap/legal/CDDLv1.0.txt.  
+ If applicable, add the following below the CDDL Header, 
+ with the fields enclosed by brackets [] replaced by
+ you own identifying information: 
+ "Portions Copyrighted [year] [name of copyright owner]"
+ 
+ Copyright 2006 Sun Microsystems, Inc. All rights reserved.
+-->
+
+<project name="CallSetup Sample" default="all" basedir=".">  
+<!-- ========== Initialize Properties =================================== -->
+
+    <import file="../communication-ant.xml"/>
+    <property name="component.name" value="CallSetup"/>
+	
+    <!-- do NOT remove or change the order of the following two lines -->
+    <property file="../../bootstrap/project.properties"/>
+    <property file="../../../glassfish/bootstrap/project.properties"/>
+    <property file="./build.properties"/>
+    <property file="../communication.properties"/>
+	<property name="publish.sample.CallSetup" value="${glassfish.samples.home}/${publish.samples.dir}/${component.name}"/>
+    <path id="compile.classpath">
+	<pathelement location="${javaee.jarforsample}"/>
+	<pathelement location="${ssa-api.jarforsample}"/>
+	<pathelement location="${mysql-connector-java-5.0.4-bin.jar}"/>
+        <pathelement location="${ssa-api.jar}"/>
+        <pathelement location="${javaee.jar}"/>
+    </path>
+
+
+    <!-- all -->
+    <target name="all" depends="compile, assemble, deploy"
+            description="Build entire component">
+    </target>
+
+    <!-- build -->
+    <target name="build" depends="compile, assemble"
+            description="Build entire component">
+    </target>
+
+    <!-- init. Initialization involves creating publishing directories and
+         OS specific targets. --> 
+    <target name="init" description="${component.name} initialization">
+	     <tstamp>
+            <format property="start.time" pattern="MM/dd/yyyy hh:mm aa"/>
+        </tstamp>    
+        <echo message="Building component ${component.name}"/>
+        <mkdir dir="${component.classes.dir}"/>
+    </target>
+
+    <!-- compile --> 
+    <target name="compile" depends="init"
+            description="Compile Call Setup sip demo sources">  
+        <echo message="JavaEE JAR : ${javaee.jar}"/>
+	<javac srcdir="${src.dir}" 
+               destdir="${component.classes.dir}"
+               debug="${javac.debug}" 
+               optimize="${javac.optimize}"
+               source="${javac.source}" 
+               deprecation="${javac.deprecation}"
+               failonerror="true">
+		<classpath refid="compile.classpath"/>
+        </javac>
+    </target>
+    
+    <!-- assemble -->
+    <target name="assemble" depends="init"
+            description="Create Call Setup sip demo sar files">    
+		<delete file="${sar.dir}/${sip-callsetup-demo.sar}"/>           
+		<mkdir dir="${sar.dir}"/>
+		<mkdir dir="${sar.web-inf.dir}"/>
+		<mkdir dir="${sar.classes.dir}"/>
+		
+		<copy todir="${sar.web-inf.dir}">
+           <fileset dir="web/WEB-INF"/>
+        </copy>
+        
+		<copy todir="${sar.classes.dir}">
+            <fileset dir="${component.classes.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
+		<copy todir="${sar.dir}">
+            <fileset dir="web">
+                <include name="*.jsp"/>
+            </fileset>
+        </copy>
+	
+		<copy todir="${sar.dir}" file="CallSetup.html" verbose="true"/>
+	
+        <jar jarfile="${sar.dir}/${sip-callsetup-demo.sar}" update="yes">
+            <fileset dir="${sar.dir}">
+                <include name="**/*"/>
+            </fileset>
+        </jar>                        
+    </target>
+
+	<!-- publish -->
+    <target name="publish"
+            description="Publish Call Setup sip demo">  
+		<mkdir dir="${publish.sample.CallSetup}"/>
+		<copy todir="${publish.sample.CallSetup}/../">
+            <fileset dir="./../">
+                <include name="communication.properties"/>
+				<include name="communication-ant.xml"/>	
+            </fileset>
+        </copy>
+		<copy todir="${publish.sample.CallSetup}">
+            <fileset dir="${sar.dir}">
+                <include name="*.sar"/>
+				<include name="CallSetup.html"/>
+            </fileset>
+			<fileset dir="scripts">
+                <include name="*"/>
+            </fileset>
+        </copy>
+		<copy todir="${publish.sample.CallSetup}/src/java">
+            <fileset dir="src/java"/>
+        </copy>
+		<copy todir="${publish.sample.CallSetup}/web">
+			<fileset dir="web">
+           		<include name="*.jsp"/>
+			</fileset>
+        </copy>		
+		<copy todir="${publish.sample.CallSetup}/web/src/conf">
+            <fileset dir="src/conf"/>
+        </copy>
+		<copy todir="${publish.sample.CallSetup}/web/WEB-INF">
+            <fileset dir="web/WEB-INF"/>
+        </copy>
+    </target>
+
+    <target name="clean" description="Clean the build">
+		<echo message="- Cleaning call setup sip demo -"/>
+        <delete includeEmptyDirs="true" failonerror="false">
+            <fileset dir="${component.classes.dir}"/>
+			<fileset dir="${sar.dir}"/>
+        </delete>
+    </target>
+
+    <!-- target to deploy the application -->
+    <target name="deploy" depends="start-database" 
+            description="Deploy the sample application">
+        <echo message="Deploying the sample application ${sip-callsetup-demo.sar}" />
+        <antcall target="deploy_simple">
+            <param name="deploy.file" value="${sar.dir}/${sip-callsetup-demo.sar}" />
+        </antcall>
+    </target>
+
+    <target name="undeploy" description="Undeploy the sample application" >
+        <echo message="Undeploying the sample application "/>
+        <antcall target="undeploy_simple">
+            <param name="binary.name" value="CallSetup" />
+        </antcall>
+    </target>
+
+   
+</project>
